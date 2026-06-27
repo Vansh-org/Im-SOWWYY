@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Vanshu</title>
+    <!-- Cute romantic script font -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #05070a;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Container holding the layout */
+        .bouquet-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* 1. PEACH APOLOGY TEXT */
+        .message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Great Vibes', cursive;
+            
+            /* Changed to a sweet, warm peach color */
+            color: #ffbca3; 
+            font-size: 3.8rem;
+            text-align: center;
+            white-space: nowrap;
+            
+            /* Soft peach-colored outer glow */
+            text-shadow: 0 0 15px rgba(255, 188, 163, 0.6), 0 0 30px rgba(230, 110, 80, 0.3);
+            
+            opacity: 0;
+            animation: fadeInText 2.5s ease-in-out forwards;
+            animation-delay: 4.5s; /* Appears smoothly when bouquet finishes blooming */
+            z-index: 10;
+        }
+
+        /* 2. THE BOUQUET STEMS & FLOWERS */
+        .stem-group {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom center;
+        }
+
+        /* Green stems */
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 3px;
+            background: linear-gradient(to top, #14331f, #225c35);
+            border-radius: 2px;
+            transform-origin: bottom center;
+            height: 0;
+            animation: growStem 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Blooming star lilies */
+        .flower-head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #ffffff 20%, #eaf2f8 50%, transparent 70%);
+            border-radius: 50%;
+            animation: bloom 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .flower-head::before, .flower-head::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 40% 40% 40% 40%;
+        }
+        .flower-head::before { transform: rotate(30deg); }
+        .flower-head::after { transform: rotate(60deg); }
+
+        /* Flower center seeds */
+        .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: #dfaa45;
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 0 5px rgba(223, 170, 69, 0.8);
+        }
+
+        /* Accent Rose Buds */
+        .bud-head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 35px;
+            height: 50px;
+            background: linear-gradient(to top, #9e1b4b, #e65c8c);
+            border-radius: 50% 50% 40% 40%;
+            animation: bloom 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            box-shadow: 0 0 10px rgba(230, 92, 140, 0.3);
+        }
+
+        /* 3. STEM ARRANGEMENT AND STAGGERED MOTION */
+        .f1 { transform: rotate(-25deg); } .f1 .stem { animation-delay: 0.2s; height: 420px; } .f1 .flower-head { animation-delay: 2.8s; }
+        .f2 { transform: rotate(-15deg); } .f2 .stem { animation-delay: 0.5s; height: 480px; } .f2 .flower-head { animation-delay: 3.1s; }
+        .f3 { transform: rotate(0deg); }   .f3 .stem { animation-delay: 0.0s; height: 520px; } .f3 .flower-head { animation-delay: 2.6s; }
+        .f4 { transform: rotate(15deg); }  .f4 .stem { animation-delay: 0.4s; height: 490px; } .f4 .flower-head { animation-delay: 3.0s; }
+        .f5 { transform: rotate(25deg); }  .f5 .stem { animation-delay: 0.7s; height: 430px; } .f5 .flower-head { animation-delay: 3.3s; }
+
+        .b1 { transform: rotate(-35deg); } .b1 .stem { animation-delay: 0.8s; height: 330px; } .b1 .bud-head { animation-delay: 3.4s; }
+        .b2 { transform: rotate(-8deg); }  .b2 .stem { animation-delay: 0.3s; height: 380px; } .b2 .bud-head { animation-delay: 2.9s; }
+        .b3 { transform: rotate(8deg); }   .b3 .stem { animation-delay: 0.6s; height: 390px; } .b3 .bud-head { animation-delay: 3.2s; }
+        .b4 { transform: rotate(35deg); }  .b4 .stem { animation-delay: 0.9s; height: 340px; } .b4 .bud-head { animation-delay: 3.5s; }
+
+        /* 4. ANIMATION CONTROLS */
+        @keyframes growStem {
+            from { height: 0; }
+            to { height: var(--target-height); }
+        }
+        .f1 .stem { --target-height: 420px; }
+        .f2 .stem { --target-height: 480px; }
+        .f3 .stem { --target-height: 520px; }
+        .f4 .stem { --target-height: 490px; }
+        .f5 .stem { --target-height: 430px; }
+        .b1 .stem { --target-height: 330px; }
+        .b2 .stem { --target-height: 380px; }
+        .b3 .stem { --target-height: 390px; }
+        .b4 .stem { --target-height: 340px; }
+
+        @keyframes bloom {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bouquet-container">
+        <!-- The updated cute peach message with exact spacing -->
+        <div class="message"> Im sorry vanshu 🌹🌹</div>
+
+        <!-- The Flower Assembly -->
+        <div class="stem-group f1"><div class="stem"><div class="flower-head"><div class="flower-center"></div></div></div></div>
+        <div class="stem-group f2"><div class="stem"><div class="flower-head"><div class="flower-center"></div></div></div></div>
+        <div class="stem-group f3"><div class="stem"><div class="flower-head"><div class="flower-center"></div></div></div></div>
+        <div class="stem-group f4"><div class="stem"><div class="flower-head"><div class="flower-center"></div></div></div></div>
+        <div class="stem-group f5"><div class="stem"><div class="flower-head"><div class="flower-center"></div></div></div></div>
+
+        <!-- The Buds Assembly -->
+        <div class="stem-group b1"><div class="stem"><div class="bud-head"></div></div></div>
+        <div class="stem-group b2"><div class="stem"><div class="bud-head"></div></div></div>
+        <div class="stem-group b3"><div class="stem"><div class="bud-head"></div></div></div>
+        <div class="stem-group b4"><div class="stem"><div class="bud-head"></div></div></div>
+    </div>
+
+</body>
+</html>
